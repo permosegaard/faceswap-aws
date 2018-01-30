@@ -1,15 +1,15 @@
 # faceswap-aws
 
-== automatically run faceswap on gpu instance in aws ==
+## automatically run faceswap on gpu instance in aws
 
 
-= requirements =
+### requirements
 1. "make check-deps" in repo root for basic binaries check, install anything that's missing per your distribution docs
 2. "make keygen" in repo root to generate public/private keypair for instance ssh
 
 
 
-= usage =
+### usage 
 1. place images of face to overlay in "run/in/source/"
 2. please images of face to overlay
 3. place video/clip to alter in run/in/video.mp3
@@ -20,14 +20,14 @@
 
 
 
-= example replacing nic cage as neo in the matrix =
+### example replacing nic cage as neo in the matrix 
 1. place images of nic cage in "run/in/source"
 2. place images of keanu in "run/in/destination"
 3. please video clip in "run/in/video.mp4"
 
 
 
-= notes =
+### notes 
  - images for training you should be a sizeable amount of well lit, unobstrcuted (glasses/hair/etc.) and generally similar looking for best results
  - training for more than 6 hours can hurt final results, if you're unsure see "make download-preview" to see how training's going
  - simple config changes available at the tops of code/swapper.sh and code/aws.js that may be useful inc. debug & automation options
