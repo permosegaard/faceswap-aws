@@ -6,7 +6,7 @@
 ### requirements
 1. "make check-deps" in repo root for basic binaries check, install anything that's missing per your distribution docs
 2. "make keygen" in repo root to generate public/private keypair for instance ssh
-3. replace contents of files/awscreds with aws api credntials
+3. replace contents of files/awscreds with aws api credentials
 
 
 ### usage 
