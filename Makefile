@@ -29,8 +29,7 @@ debug:
 
 download-preview:
 	@rsync -e "ssh $(sshopts)" root@$(instanceip):/root/faceswap/_sample.jpg ./run/
-	@which xdg-open > /dev/null
-	@xdg-open ./run/_sample.jpg
+	@which xdg-open > /dev/null && xdg-open ./run/_sample.jpg
 
 instance-ssh:
 	@$(sshcommand)
