@@ -1,0 +1,17 @@
+{
+  "name": "swapper",
+  "version": "1.0.0",
+  "description": "",
+  "main": "swapper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.186.0",
+    "eslint": "^4.16.0",
+    "sleep": "^5.1.1",
+    "tern": "^0.21.0"
+  }
+}
