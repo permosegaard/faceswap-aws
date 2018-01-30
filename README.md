@@ -11,10 +11,10 @@
 
 ### usage 
 1. place images of face to overlay in "run/in/source/"
-2. please images of face to overlay
+2. please images of face to be replaced in "run/in/destination/"
 3. place video/clip to alter in run/in/video.mp3
-4. "make run"
-5. wait for training to complete via timeout or press ctrl+c when happy with training results (use "make download-preview" in project root to download current training sample to ./run/)
+4. "make run" to start the process
+5. wait for training to complete via timeout (see code/swapper.sh) or press ctrl+c when happy with training results (use "make download-preview" in project root to download current training sample to ./run/)
 6. wait for process to complete, this can take some time depending on options used, transfer bandwidth available. etc.
 7. *** CHECK THE INSTANCE HAS BEEN COMPLETLY DESTROYED IN AWS CONSOLE TO PREVENT UNWANTED CHARGES ***
 
