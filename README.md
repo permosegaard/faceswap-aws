@@ -8,6 +8,7 @@
 2. "make keygen" in repo root to generate public/private keypair for instance ssh
 
 
+
 = usage =
 1. place images of face to overlay in "run/in/source/"
 2. please images of face to overlay
@@ -18,10 +19,12 @@
 7. *** CHECK THE INSTANCE HAS BEEN COMPLETLY DESTROYED IN AWS CONSOLE TO PREVENT UNWANTED CHARGES ***
 
 
+
 = example replacing nic cage as neo in the matrix =
 1. place images of nic cage in "run/in/source"
 2. place images of keanu in "run/in/destination"
 3. please video clip in "run/in/video.mp4"
+
 
 
 = notes =
