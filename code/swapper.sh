@@ -4,6 +4,7 @@ training_save="500" # NOTE: iterations per save greater thans 0 as multiple of 1
 download_convert_extra=false # NOTE: true = copy final video and stills from conversion - will take time, false = copy final video only
 terminate_spot_on_finish=true # NOTE: true = cancel spot request and terminate instance automatically when done
 
+
 echo "$(date): creating..."
 requestid="$(node ../code/aws.js create)"
 if [ $? -ne 0 ]; then exit 1; fi
