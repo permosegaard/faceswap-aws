@@ -79,5 +79,6 @@ else
 fi
 rm -f ./instance_ip
 
+
 echo; echo; echo "$(date): finished!"
 echo -e "\a" # NOTE: terminal bell
