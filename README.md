@@ -1,6 +1,6 @@
 # faceswap-aws
 
-## automatically run faceswap on gpu instance in aws
+## automatically run faceswap on a gpu instance in aws
 
 
 ### requirements
