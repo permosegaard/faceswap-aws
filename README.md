@@ -1,6 +1,6 @@
 # faceswap-aws
 
-## automatically run faceswap on a gpu instance in aws
+## automatically run faceswap on a gpu instance in aws - NOW WITH INITIAL VR SUPPORT!
 
 
 ### requirements
@@ -12,7 +12,7 @@
 ### usage 
 1. place images of face to overlay in "run/in/source/"
 2. please images of face to be replaced in "run/in/destination/"
-3. place video/clip to alter in run/in/video.m4a
+3. place video/clip to alter in run/in/video.mp4
 4. "make run" to start the process
 5. wait for training to complete via timeout (see code/swapper.sh) or press ctrl+c when happy with training results (use "make download-preview" in project root to download current training sample to ./run/)
 6. wait for process to complete, this can take some time depending on options used, transfer bandwidth available. etc.

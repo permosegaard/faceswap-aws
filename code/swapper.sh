@@ -57,9 +57,18 @@ fi
 
 
 echo; echo; echo "$(date): converting..."
-${sshcmd} "cd /root/faceswap; ffmpeg -i './run/in/video.mp4' './run/in/video/frame-%06d.png'"
-${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py convert -m ./run/processed/model/ -i ./run/in/video/ -o ./run/processed/video/"
-${sshcmd} "cd /root/faceswap; ffmpeg -pattern_type glob -i './run/processed/video/frame-*.png' -c:v libx264 -vf 'fps=25,format=yuv420p' ./run/out/video.mp4"
+if [ "${1}" = "vr" ]
+then
+	${sshcmd} "cd /root/faceswap; ffmpeg -i ./run/in/video.mp4 -filter_complex 'split[l][r];[l]stereo3d=sbsl:ml[left];[r]stereo3d=sbsl:mr[right]' -map [left] -map 0:a -c:a copy ./run/in/video-left.mp4 -map [right] -map 0:a -c:a copy ./run/in/video-right.mp4"
+	for i in "left" "right"; do ${sshcmd} "cd /root/faceswap; ffmpeg -i './run/in/video-${i}.mp4' './run/in/video/frame-${i}-%06d.png'"; done
+	${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py convert -m ./run/processed/model/ -i ./run/in/video/ -o ./run/processed/video/"
+	for i in "left" "right"; do ${sshcmd} "cd /root/faceswap; ffmpeg -pattern_type glob -i './run/processed/video/frame-${i}-*.png' -c:v libx264 -vf 'fps=25,format=yuv420p' ./run/converted/video-${i}.mp4"; done
+	${sshcmd} "cd /root/faceswap; ffmpeg -i ./run/in/video-left.mp4 -i ./run/in/video-right.avi -filter_complex 'hstack,format=yuv420p' -c:v libx264 -crf 18 ./run/out/video.mp4"
+else
+	${sshcmd} "cd /root/faceswap; ffmpeg -i './run/in/video.mp4' './run/in/video/frame-%06d.png'"
+	${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py convert -m ./run/processed/model/ -i ./run/in/video/ -o ./run/processed/video/"
+	${sshcmd} "cd /root/faceswap; ffmpeg -pattern_type glob -i './run/processed/video/frame-*.png' -c:v libx264 -vf 'fps=25,format=yuv420p' ./run/out/video.mp4"
+fi
 
 
 echo; echo; echo "$(date): downloading..."

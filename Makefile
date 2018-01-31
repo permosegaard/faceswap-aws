@@ -21,11 +21,15 @@ keygen:
 
 pre-run: check-deps clean keygen
 
+debug:
+	@cd ./run/; bash -x ../code/swapper.sh; cd ..
+
 run:
 	@cd ./run/; bash ../code/swapper.sh; cd ..
 
-debug:
-	@cd ./run/; bash -x ../code/swapper.sh; cd ..
+vr:
+	@cd ./run/; bash ../code/swapper.sh vr; cd ..
+
 
 download-preview:
 	@rsync -e "ssh $(sshopts)" root@$(instanceip):/root/faceswap/_sample.jpg ./run/
