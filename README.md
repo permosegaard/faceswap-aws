@@ -1,6 +1,6 @@
 # faceswap-aws
 
-## automatically run faceswap on a gpu instance in aws - NOW WITH VR SUPPORT!
+## automatically run faceswap on a gpu instance in aws - NOW WITH VR!
 
 
 ### requirements
