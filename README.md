@@ -23,7 +23,7 @@
 ### example replacing nic cage as neo in the matrix 
 1. place images of nic cage in "run/in/source"
 2. place images of keanu in "run/in/destination"
-3. please video clip in "run/in/video.mp4"
+3. place video clip in "run/in/video.mp4"
 
 
 
