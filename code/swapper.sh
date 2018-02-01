@@ -1,7 +1,8 @@
 training_timeout="0" # NOTE: syntax from timeout command ie. "6h" for 6 hours, 0 for manual control
 training_batch="16" # NOTE: must be multiple of 2 and 16 or above, default=64
 training_save="500" # NOTE: iterations per save greater thans 0 as multiple of 10, iterations take ~1s on p2.xlarge
-download_convert_extra=false # NOTE: true = copy final video and stills from conversion - will take time, false = copy final video only
+download_convert_model=true # NOTE: true = download trained model, false = do not download
+download_convert_extra=false # NOTE: true = download final video and stills from conversion - will take time, false = download final video only
 terminate_spot_on_finish=true # NOTE: true = cancel spot request and terminate instance automatically when done
 
 
@@ -75,7 +76,12 @@ fi
 echo; echo; echo "$(date): downloading..."
 if [ "${download_convert_extra}" = true ]
 then
-	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/{out/,processed/} ../run/
+	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/{out,processed} ../run/
+elif [ "${download_convert_model}" = true ]
+then
+	mkdir -p ../run/processed; 
+	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/out ../run/
+	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/processed/model ../run/processed/
 else
 	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/out/video.mp4 ../run/out/
 fi
