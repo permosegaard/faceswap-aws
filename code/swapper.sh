@@ -49,7 +49,7 @@ done
 
 echo; echo; echo "$(date): training..."
 ${sshcmd} "cd /root/faceswap; sed -i 's/BATCH_SIZE = [0-9]*/BATCH_SIZE = ${training_batch}/' ./scripts/train.py"
-if [ -d ./run/in/model ]; then ${sshcmd} "cd /root/faceswap; cp -Ra ./run/in/model* ./run/processed/model/"; fi
+if [ -d ./run/in/model ]; then ${sshcmd} "cd /root/faceswap; cp -Ra ./run/in/model/* ./run/processed/model/"; fi
 if [ "${training_timeout}" = "0" ]
 then
 	${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py train -w -s ${training_save} -m ./run/processed/model/ -A ./run/processed/source/ -B ./run/processed/destination/; exit"

@@ -14,7 +14,7 @@ check-deps:
 	npm update
 
 clean:
-	@rm -Rf ./run/*; mkdir -p ./run/in/{source,destination}
+	@rm -Rf ./run/*; mkdir -p ./run/in/{source,destination,model}
 
 keygen:
 	@cd ./files/; rm -f id_rsa*; ssh-keygen -t rsa -N "" -f id_rsa; cd ..
