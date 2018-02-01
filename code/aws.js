@@ -3,31 +3,29 @@ const fs = require("fs");
 const tempcredscontents = fs.readFileSync("../files/awscreds.txt").toString().split("\n");
 
 const Config = {
-	AMAZON: {
-		ACCESSKEY: tempcredscontents[0],
-		SECRET: tempcredscontents[1],
-		TYPE: "p2.xlarge",
-		
-		REGION: "us-east-1",
-		AMI: "ami-4f1d2a35" // NOTE: p2.xlarge
-		
-		//REGION: "us-west-2",
-		//AMI: "ami-38c87440" // NOTE: p2.xlarge
-	}
+	ACCESSKEY: tempcredscontents[0],
+	SECRET: tempcredscontents[1],
+	TYPE: "p2.xlarge",
+	
+	REGION: "us-east-1",
+	AMI: "ami-4f1d2a35" // NOTE: p2.xlarge
+	
+	//REGION: "us-west-2",
+	//AMI: "ami-38c87440" // NOTE: p2.xlarge
 };
 
 
 const sleep = require("sleep");
 
 const aws = require("aws-sdk");
-aws.config.update({ accessKeyId: Config.AMAZON.ACCESSKEY, secretAccessKey: Config.AMAZON.SECRET, region: Config.AMAZON.REGION });
+aws.config.update({ accessKeyId: Config.ACCESSKEY, secretAccessKey: Config.SECRET, region: Config.REGION });
 
 const ec2 = new aws.EC2();
 
 
 async function awsrequest(_function, _params) {
 	return _function.bind(ec2, _params)().promise().then(
-		(data) => data, (error) => console.error(error, error.stack)
+		(data) => data, (error) => { console.error(error, error.stack); process.exit(1); }
 	);
 }
 
@@ -47,8 +45,8 @@ async function create() {
 		{
 			InstanceCount: 1, Type: "one-time",
 			LaunchSpecification: {
-				ImageId: Config.AMAZON.AMI,
-				InstanceType: Config.AMAZON.TYPE,
+				ImageId: Config.AMI,
+				InstanceType: Config.TYPE,
 				UserData: new Buffer(userdata).toString("base64")
 			}
 		}

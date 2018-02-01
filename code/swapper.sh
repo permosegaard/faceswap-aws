@@ -48,6 +48,7 @@ done
 
 echo; echo; echo "$(date): training..."
 ${sshcmd} "cd /root/faceswap; sed -i 's/BATCH_SIZE = [0-9]*/BATCH_SIZE = ${training_batch}/' ./scripts/train.py"
+if [ -d ./run/in/model ]; then ${sshcmd} "cd /root/faceswap; cp -Ra ./run/in/model* ./run/processed/model/"; fi
 if [ "${training_timeout}" = "0" ]
 then
 	${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py train -w -s ${training_save} -m ./run/processed/model/ -A ./run/processed/source/ -B ./run/processed/destination/; exit"
@@ -62,8 +63,8 @@ then
 	${sshcmd} "cd /root/faceswap; ffmpeg -i ./run/in/video.mp4 -filter_complex 'split[l][r];[l]stereo3d=sbsl:ml[left];[r]stereo3d=sbsl:mr[right]' -map [left] -map 0:a -c:a copy ./run/in/video-left.mp4 -map [right] -map 0:a -c:a copy ./run/in/video-right.mp4"
 	for i in "left" "right"; do ${sshcmd} "cd /root/faceswap; ffmpeg -i './run/in/video-${i}.mp4' './run/in/video/frame-${i}-%06d.png'"; done
 	${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py convert -m ./run/processed/model/ -i ./run/in/video/ -o ./run/processed/video/"
-	for i in "left" "right"; do ${sshcmd} "cd /root/faceswap; ffmpeg -pattern_type glob -i './run/processed/video/frame-${i}-*.png' -c:v libx264 -vf 'fps=25,format=yuv420p' ./run/converted/video-${i}.mp4"; done
-	${sshcmd} "cd /root/faceswap; ffmpeg -i ./run/converted/video-left.mp4 -i ./run/converted/video-right.avi -filter_complex 'hstack,format=yuv420p' -c:v libx264 -crf 18 ./run/out/video.mp4"
+	for i in "left" "right"; do ${sshcmd} "cd /root/faceswap; ffmpeg -pattern_type glob -i './run/processed/video/frame-${i}-*.png' -c:v libx264 -vf 'fps=25,format=yuv420p' ./run/processed/video-${i}.mp4"; done
+	${sshcmd} "cd /root/faceswap; ffmpeg -i ./run/processed/video-left.mp4 -i ./run/processed/video-right.avi -filter_complex 'hstack,format=yuv420p' -c:v libx264 -crf 18 ./run/out/video.mp4"
 else
 	${sshcmd} "cd /root/faceswap; ffmpeg -i './run/in/video.mp4' './run/in/video/frame-%06d.png'"
 	${sshcmd} "cd /root/faceswap; LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64 ./bin/python3 faceswap.py convert -m ./run/processed/model/ -i ./run/in/video/ -o ./run/processed/video/"
@@ -74,7 +75,7 @@ fi
 echo; echo; echo "$(date): downloading..."
 if [ "${download_convert_extra}" = true ]
 then
-	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/{out/,converted/} ../run/
+	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/{out/,processed/} ../run/
 else
 	rsync -a -e "ssh ${sshopts}" --info=progress2 root@${ip}:/root/faceswap/run/out/video.mp4 ../run/out/
 fi
