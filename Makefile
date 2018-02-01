@@ -2,7 +2,7 @@ sshopts=-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ./files/i
 instanceip=$(shell cat ./run/instance_ip)
 sshcommand=ssh $(sshopts) root@$(instanceip)
 
-.PHONY: check-deps clean keygen pre-run run debug instance-ssh instance-ps instance-top instance-du instance-nsmi
+.PHONY: check-deps clean keygen pre-run debug run debug-vr run-vr instance-ssh instance-ps instance-top instance-du instance-nsmi
 
 check-deps:
 	which ssh
@@ -27,7 +27,10 @@ debug:
 run:
 	@cd ./run/; bash ../code/swapper.sh; cd ..
 
-vr:
+debug-vr:
+	@cd ./run/; bash -x ../code/swapper.sh vr; cd ..
+
+run-vr:
 	@cd ./run/; bash ../code/swapper.sh vr; cd ..
 
 
